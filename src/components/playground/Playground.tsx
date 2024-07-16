@@ -46,7 +46,7 @@ export interface PlaygroundProps {
   onConnect: (connect: boolean, opts?: { token: string; url: string }) => void;
 }
 
-const headerHeight = 56;
+const headerHeight = 90;
 
 export default function Playground({
   logo,
