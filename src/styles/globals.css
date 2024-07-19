@@ -11,6 +11,8 @@ body {
   height: 100dvh;
 }
 
+main {background-color: #2d2d2d}
+
 .repeating-square-background {
   background-size: 18px 18px;
   background-repeat: repeat;

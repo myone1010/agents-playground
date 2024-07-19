@@ -47,7 +47,7 @@ export const AgentMultibandAudioWaveVisualizer = (
     seed: 0,
 
     points: 2500,
-    dampening: 0.7,
+    dampening: 1,
     stiffness: 0.55,
     freqPow: 1.7,
     connectedNeighbors: 4,
@@ -60,11 +60,11 @@ export const AgentMultibandAudioWaveVisualizer = (
     blurWeight: 0.8,
     originalWeight: 1.2,
 
-    gridLines: 180,
+    gridLines: 100,
     linesDampening: 0.02,
     linesStiffness: 0.9,
     linesAnimationOffset: 12,
-    gridMaxHeight: 0.28,
+    gridMaxHeight: 0.8,
 
     motionBlur: true,
     motionBlurAmount: 0.45,
@@ -247,7 +247,7 @@ export const AgentMultibandAudioWaveVisualizer = (
 
     function Update(analyser:any) {
       const frequencies = useAudiobandTrackVolume(localMicTrack, analyser);
-      console.log("localMicTrack", localMicTrack, frequencies)
+      //console.log("localMicTrack", localMicTrack, frequencies)
       points.forEach((pt: any) => {
         let value = 0;
         if (pt.frequencyBin || pt.frequencyBin === 0) {
