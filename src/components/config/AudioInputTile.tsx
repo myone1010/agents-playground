@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { AgentMultibandAudioVisualizer } from "../visualization/AgentMultibandAudioVisualizer";
+import { AgentMultibandAudioWaveVisualizer } from "../visualization/AgentMultibandAudioWaveVisualizer";
 
 type AudioInputTileProps = {
   frequencies: Float32Array[];
@@ -21,6 +22,17 @@ export const AudioInputTile = ({ frequencies }: AudioInputTileProps) => {
         borderRadius={2}
         gap={4}
       />
+      {/* <AgentMultibandAudioWaveVisualizer
+        state="speaking"
+        barWidth={4}
+        minBarHeight={2}
+        maxBarHeight={50}
+        accentColor={"gray"}
+        accentShade={400}
+        frequencies={frequencies}
+        borderRadius={2}
+        gap={4}
+      /> */}
     </div>
   );
 };

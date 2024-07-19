@@ -51,3 +51,21 @@ body {
     opacity: 1;
   }
 }
+
+
+.visualizer{
+  width: 100%;
+  height: 100%;
+}
+.viz {
+  width: 100%;
+  height: 100%;
+}
+.title-card-container {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}

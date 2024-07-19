@@ -58,6 +58,7 @@ const normalizeFrequencies = (frequencies: Float32Array) => {
   });
 };
 
+
 export const useMultibandTrackVolume = (
   track?: Track,
   bands: number = 5,
@@ -109,4 +110,42 @@ export const useMultibandTrackVolume = (
   }, [track, track?.mediaStream, loPass, hiPass, bands]);
 
   return frequencyBands;
+};
+
+export const getAudioAnalyzer = (
+  track?: Track
+) => {
+  if (!track || !track.mediaStream) {
+    return;
+  }
+  const ctx = new AudioContext();
+  const source = ctx.createMediaStreamSource(track.mediaStream);
+  const analyser = ctx.createAnalyser();
+  analyser.fftSize = 2048;
+  source.connect(analyser);
+  return analyser;
+};
+
+export const useAudiobandTrackVolume = (
+  track?: Track, analyser?:any
+) => {
+  let frequencies:Uint8Array = new Uint8Array(1024).fill(100);
+
+  function getFrequency(){
+    if (!track || !track.mediaStream) {
+      return;
+    }
+    
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    analyser.getByteFrequencyData(dataArray);
+    // let frequencies: Uint8Array = new Uint8Array(dataArray.length);
+    for (let i = 0; i < dataArray.length; i++) {
+      frequencies[i] = dataArray[i];
+    }
+  }
+
+  getFrequency();
+  return frequencies;
 };
