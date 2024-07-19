@@ -1,12 +1,4 @@
-import css from "dom-css";
-import fit from "canvas-fit";
-import mat4 from "gl-mat4";
-import array from "new-array";
-import shuffle from "shuffle-array";
-import Alea from "alea";
 import { createSpring } from "spring-animator";
-import Delaunator from "delaunator";
-import createPlayer from "web-audio-player";
 import createCamera from "3d-view-controls";
 import glsl from "glslify";
 

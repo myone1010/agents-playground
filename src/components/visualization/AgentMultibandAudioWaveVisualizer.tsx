@@ -245,7 +245,7 @@ export const AgentMultibandAudioWaveVisualizer = (
       });
     }
 
-    function update(analyser:any) {
+    function Update(analyser:any) {
       const frequencies = useAudiobandTrackVolume(localMicTrack, analyser);
       console.log("localMicTrack", localMicTrack, frequencies)
       points.forEach((pt: any) => {
@@ -290,7 +290,7 @@ export const AgentMultibandAudioWaveVisualizer = (
             1000
           ),
         view: () => camera.getMatrix(),
-        time: ({ time }) => time,
+        time: ({ time }: any) => time,
       },
     });
 
@@ -333,9 +333,9 @@ export const AgentMultibandAudioWaveVisualizer = (
     });
 
     function startLoop(analyser:any) {
-      return regl.frame(({ time }) => {
-        camera.tick({ time });
-        update(analyser);
+      return regl.frame(({ time }: any) => {
+        camera.tick();
+        Update(analyser);
         renderToFBO(() => {
           renderFrequencies();
         });
