@@ -194,14 +194,14 @@ export default function Playground({
   const audioTileContent = useMemo(() => {
     const disconnectedContent = (
       <div className="flex flex-col items-center justify-center gap-2 text-gray-700 text-center w-full">
-        No audio track. Connect to get started.
+        Connect to begin the enchantment
       </div>
     );
 
     const waitingContent = (
       <div className="flex flex-col items-center gap-2 text-gray-700 text-center w-full">
         <LoadingSVG />
-        Waiting for audio track
+        Loading magic...
       </div>
     );
 
