@@ -452,7 +452,7 @@ export default function Playground({
           <PlaygroundTabbedTile
             className="h-full"
             tabs={mobileTabs}
-            initialTab={mobileTabs.length - 1}
+            initialTab={0}
           />
         </div>
         <div
