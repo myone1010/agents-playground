@@ -114,7 +114,9 @@ export const AgentMultibandAudioWaveVisualizer = (
 
     const renderToFBO = regl({ framebuffer: fbo });
     const renderToFreqMapFBO = regl({ framebuffer: freqMapFBO });
-
+    if (canvas.style.width == '0px') {
+      return;
+      }
     const renderBloom = createRenderBloom(regl, canvas);
     const renderBlur = createRenderBlur(regl);
 
