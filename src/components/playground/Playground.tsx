@@ -76,6 +76,15 @@ export default function Playground({
     }
   }, [config, localParticipant, roomState]);
 
+  const [isLg, setIsLg] = useState<boolean>(true)
+  const handleWindowSizeChange = () => {
+    setIsLg(window.innerWidth >= 1024)
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange)
+    return () => window.removeEventListener('resize', handleWindowSizeChange)
+  }, [])
+
   let agentAudioTrack: TrackReferenceOrPlaceholder | undefined;
   const aat = tracks.find(
     (trackRef) =>
@@ -448,6 +457,7 @@ export default function Playground({
         className={`flex gap-4 py-4 grow w-full selection:bg-${config.settings.theme_color}-900`}
         style={{ height: `calc(100% - ${headerHeight}px)` }}
       >
+        {!isLg ?
         <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
           <PlaygroundTabbedTile
             className="h-full"
@@ -455,6 +465,7 @@ export default function Playground({
             initialTab={0}
           />
         </div>
+        : 
         <div
           className={`flex-col grow basis-1/2 gap-4 h-full hidden lg:${
             !config.settings.outputs.audio && !config.settings.outputs.video
@@ -481,6 +492,7 @@ export default function Playground({
             </PlaygroundTile>
           )}
         </div>
+        }
 
         {config.settings.chat && (
           <PlaygroundTile
