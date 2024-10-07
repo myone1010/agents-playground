@@ -46,12 +46,12 @@ const defaultConfig: AppConfig = {
     theme_color: "cyan",
     chat: true,
     inputs: {
-      camera: true,
+      camera: false,
       mic: true,
     },
     outputs: {
       audio: true,
-      video: true,
+      video: false,
     },
     ws_url: "",
     token: "",
@@ -70,7 +70,7 @@ const useAppConfig = (): AppConfig => {
           parsedConfig.settings = defaultConfig.settings;
         }
         if (parsedConfig.settings.editable === undefined) {
-          parsedConfig.settings.editable = true;
+          parsedConfig.settings.editable = false;
         }
         return parsedConfig;
       } catch (e) {
@@ -112,13 +112,13 @@ export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
       chat: params.get("chat") === "1",
       theme_color: params.get("theme_color"),
       inputs: {
-        camera: params.get("cam") === "1",
+        camera: false,
         mic: params.get("mic") === "1",
       },
       outputs: {
         audio: params.get("audio") === "1",
-        video: params.get("video") === "1",
-        chat: params.get("chat") === "1",
+        video: false,
+        chat: false,
       },
       ws_url: "",
       token: "",
