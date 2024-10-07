@@ -475,7 +475,7 @@ export default function Playground({
       />
       <div
         className={`flex flex-col gap-4 py-4 grow w-full items-center selection:bg-${config.settings.theme_color}-900`}
-        style={{ height: `calc(100% - ${headerHeight}px)` }}
+        style={{ height: `calc(100% - ${headerHeight * 2}px)` }}
       >
         {/* {isLg ?
           <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
@@ -487,7 +487,7 @@ export default function Playground({
           </div>
           : */}
         <div
-          className={`flex-col gap-4 h-96 w-96 max-w-[90vw] max-h-[90vw]`}
+          className={`flex-col gap-4 h-80 w-80 max-w-[90vw] max-h-[90vw]`}
         >
           {/* {config.settings.outputs.video && (
             <PlaygroundTile
@@ -500,7 +500,7 @@ export default function Playground({
           )} */}
           {config.settings.outputs.audio && (
             <PlaygroundTile
-              title="Audio"
+              // title="Audio"
               className="w-full h-full grow border-8 border-white rounded-3xl bg-gray-500"
               childrenClassName="justify-center"
             >
