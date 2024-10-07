@@ -71,3 +71,134 @@ main {background-color: #2d2d2d}
   left: 0;
   z-index: -1;
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.drawerOverlay {
+  position: fixed !important;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+}
+
+.drawerOverlay[data-state='open'] {
+  -webkit-animation: fade-in .8s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: fade-in .8s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+.drawerOverlay[data-state='closed'] {
+  -webkit-animation: fade-out .5s ease-out both;
+  animation: fade-out .54s ease-out both;
+}
+
+.drawerContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  max-width: 90%;
+  min-height: 450px;
+  background: #2d2d2d;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  z-index: 100;
+  color: white;
+  transform: translate(-50%, -50%);
+  
+  :global {
+    .rt-IconButton {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 10px;
+      border-radius: 20px;
+        background: var(--gray-1);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    right: 0;
+  }
+}
+
+.drawerContent[data-state='open'] {
+  -webkit-animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+.drawerContent[data-state='closed'] {
+  /* -webkit-animation: fade-out 0.4s ease-out both;
+  animation: fade-out 0.4s ease-out both; */
+}
+
+.drawerTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  font-size: 1.35rem;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.drawerClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.drawerDescription {
+  padding: 20px;
+}
+
+.audio-track-toggle {
+  border: 6px solid rgba(229, 231, 235, .6);
+  outline: 6px solid rgba(156, 163, 175, .7);
+  outline-offset: 4px;
+  transition: all .5s ease, opacity 2s ease;
+}
+
+.audio-track-toggle-animation {
+  animation: fade-in-out 2s cubic-bezier(.4,0,.6,1) infinite;
+}

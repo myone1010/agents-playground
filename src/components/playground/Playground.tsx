@@ -19,6 +19,7 @@ import { useAudiobandTrackVolume, useMultibandTrackVolume } from "@/hooks/useTra
 import { TranscriptionTile } from "@/transcriptions/TranscriptionTile";
 import {
   TrackReferenceOrPlaceholder,
+  TrackToggle,
   VideoTrack,
   useConnectionState,
   useDataChannel,
@@ -35,6 +36,10 @@ import {
 } from "livekit-client";
 import { QRCodeSVG } from "qrcode.react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { PlaygroundFooter } from "./PlaygroundFooter";
+import { Button } from "../button/Button";
+import { useDrawer } from "@/cloud/DrawerProvider";
+import { Drawer } from "./Drawer";
 
 export interface PlaygroundMeta {
   name: string;
@@ -236,7 +241,7 @@ export default function Playground({
           accentColor={config.settings.theme_color}
           accentShade={500}
           // localMicTrack = {localMicTrack?.publication?.track}
-          localMicTrack = {agentAudioTrack?.publication?.track}
+          localMicTrack={agentAudioTrack?.publication?.track}
           borderRadius={12}
           gap={16}
         />
@@ -440,40 +445,51 @@ export default function Playground({
     ),
   });
 
+  const { openDrawer } = useDrawer();
+  const openSettings = () => {
+    openDrawer(
+      <PlaygroundTile
+        padding={false}
+        backgroundColor="gray-950"
+        className="h-full w-full items-start overflow-y-auto max-w-[480px]"
+        childrenClassName="h-full grow items-start"
+        aria-describedby=""
+      >
+        {settingsTileContent}
+      </PlaygroundTile>
+    );
+  }
+
   return (
     <>
       <PlaygroundHeader
-        title={config.title}
+        // title={config.title}
         logo={logo}
-        githubLink={config.github_link}
+        // githubLink={config.github_link}
         height={headerHeight}
         accentColor={config.settings.theme_color}
         connectionState={roomState}
-        onConnectClicked={() =>
-          onConnect(roomState === ConnectionState.Disconnected)
-        }
+      // onConnectClicked={() =>
+      //   onConnect(roomState === ConnectionState.Disconnected)
+      // }
       />
       <div
-        className={`flex gap-4 py-4 grow w-full selection:bg-${config.settings.theme_color}-900`}
+        className={`flex flex-col gap-4 py-4 grow w-full items-center selection:bg-${config.settings.theme_color}-900`}
         style={{ height: `calc(100% - ${headerHeight}px)` }}
       >
-        {!isLg ?
-        <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
-          <PlaygroundTabbedTile
-            className="h-full"
-            tabs={mobileTabs}
-            initialTab={0}
-          />
-        </div>
-        : 
+        {/* {isLg ?
+          <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
+            <PlaygroundTabbedTile
+              className="h-full"
+              tabs={mobileTabs}
+              initialTab={0}
+            />
+          </div>
+          : */}
         <div
-          className={`flex-col grow basis-1/2 gap-4 h-full hidden lg:${
-            !config.settings.outputs.audio && !config.settings.outputs.video
-              ? "hidden"
-              : "flex"
-          }`}
+          className={`flex-col gap-4 h-96 w-96 max-w-[90vw] max-h-[90vw]`}
         >
-          {config.settings.outputs.video && (
+          {/* {config.settings.outputs.video && (
             <PlaygroundTile
               title="Video"
               className="w-full h-full grow"
@@ -481,36 +497,55 @@ export default function Playground({
             >
               {videoTileContent}
             </PlaygroundTile>
-          )}
+          )} */}
           {config.settings.outputs.audio && (
             <PlaygroundTile
               title="Audio"
-              className="w-full h-full grow"
+              className="w-full h-full grow border-8 border-white rounded-3xl bg-gray-500"
               childrenClassName="justify-center"
             >
               {audioTileContent}
             </PlaygroundTile>
           )}
         </div>
-        }
-
-        {config.settings.chat && (
+        {/* } */}
+        <div className={`flex gap-4 w-96 justify-center`}>
+          {roomState !== ConnectionState.Connected && roomState !== ConnectionState.SignalReconnecting ? <Button data-state="closed" accentColor="gray" className="audio-track-toggle !rounded-full h-24 w-24" disabled={true}>
+            <div className="flex justify-center items-center h-full w-full opacity-80">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 6H8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm7 0h-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Z" />
+              </svg>
+            </div>
+          </Button>
+            :
+            <TrackToggle
+              className={`audio-track-toggle audio-track-toggle-animation rounded-full h-24 w-24 flex justify-center items-center bg-${config.settings.theme_color}-500 text-gray-700 border border-gray-800 hover:bg-${config.settings.theme_color}-400 [&>svg]:scale-[2.5]`}
+              source={Track.Source.Microphone}
+            />
+          }
+        </div>
+        {/* {config.settings.chat && (
           <PlaygroundTile
             title="Chat"
             className="h-full grow basis-1/4 hidden lg:flex"
           >
             {chatTileContent}
           </PlaygroundTile>
-        )}
-        <PlaygroundTile
-          padding={false}
-          backgroundColor="gray-950"
-          className="h-full w-full basis-1/4 items-start overflow-y-auto hidden max-w-[480px] lg:flex"
-          childrenClassName="h-full grow items-start"
-        >
-          {settingsTileContent}
-        </PlaygroundTile>
+        )} */}
       </div>
+      <PlaygroundFooter
+        // title={config.title}
+        // logo={logo}
+        // githubLink={config.github_link}
+        height={headerHeight}
+        accentColor={config.settings.theme_color}
+        connectionState={roomState}
+        onConnectClicked={() =>
+          onConnect(roomState === ConnectionState.Disconnected)
+        }
+        onSettingClicked={openSettings}
+      />
+      <Drawer />
     </>
   );
 }
