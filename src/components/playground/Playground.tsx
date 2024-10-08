@@ -222,7 +222,7 @@ export default function Playground({
     // TODO: keep it in the speaking state until we come up with a better protocol for agent states
     const visualizerContent = (
       <div className="flex items-center justify-center w-full">
-        {/* <AgentMultibandAudioVisualizer
+        <AgentMultibandAudioVisualizer
           state="speaking"
           barWidth={30}
           minBarHeight={30}
@@ -230,10 +230,10 @@ export default function Playground({
           accentColor={config.settings.theme_color}
           accentShade={500}
           frequencies={subscribedVolumes}
-          borderRadius={12}
-          gap={16}
-        /> */}
-        <AgentMultibandAudioWaveVisualizer
+          borderRadius={16}
+          gap={12}
+        />
+        {/* <AgentMultibandAudioWaveVisualizer
           state="speaking"
           barWidth={30}
           minBarHeight={30}
@@ -244,7 +244,7 @@ export default function Playground({
           localMicTrack={agentAudioTrack?.publication?.track}
           borderRadius={12}
           gap={16}
-        />
+        /> */}
       </div>
     );
 
