@@ -34,11 +34,11 @@ This will connect you to our example agent [KITT](https://github.com/livekit/age
   npm install
 ```
 
-2. Copy and rename the `.env.example` file to `.env.local` and fill in the necessary environment variables.
+2. Copy and rename the `.env.example` file to `.env` and fill in the necessary environment variables.
 
 ```
-LIVEKIT_API_KEY=<your API KEY>
-LIVEKIT_API_SECRET=<Your API Secret>
+NEXT_PRIVATE_API_KEY=<your API KEY>
+NEXT_PRIVATE_API_SECRET=<Your API Secret>
 NEXT_PUBLIC_LIVEKIT_URL=wss://<Your Cloud URL>
 ```
 
