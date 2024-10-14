@@ -277,123 +277,108 @@ export default function Playground({
     return <></>;
   }, [config.settings.theme_color, agentAudioTrack]);
 
-  const settingsTileContent = useMemo(() => {
-    return (
-      <div className="flex flex-col gap-4 h-full w-full items-start overflow-y-auto">
-        {config.description && (
-          <ConfigurationPanelItem title="Description">
-            {config.description}
-          </ConfigurationPanelItem>
-        )}
-
-        <ConfigurationPanelItem title="Settings">
-          {localParticipant && (
-            <div className="flex flex-col gap-2">
-              <NameValueRow
-                name="Room"
-                value={name}
-                valueColor={`${config.settings.theme_color}-500`}
-              />
-              <NameValueRow
-                name="Participant"
-                value={localParticipant.identity}
-              />
-            </div>
-          )}
+  const settingsTileContent = (
+    <div className="flex flex-col gap-4 h-full w-full items-start overflow-y-auto">
+      {config.description && (
+        <ConfigurationPanelItem title="Description">
+          {config.description}
         </ConfigurationPanelItem>
-        <ConfigurationPanelItem title="Status">
+      )}
+
+      <ConfigurationPanelItem title="Settings">
+        {localParticipant && (
           <div className="flex flex-col gap-2">
             <NameValueRow
-              name="Room connected"
-              value={
-                roomState === ConnectionState.Connecting ? (
-                  <LoadingSVG diameter={16} strokeWidth={2} />
-                ) : (
-                  roomState.toUpperCase()
-                )
-              }
-              valueColor={
-                roomState === ConnectionState.Connected
-                  ? `${config.settings.theme_color}-500`
-                  : "gray-500"
-              }
+              name="Room"
+              value={name}
+              valueColor={`${config.settings.theme_color}-500`}
             />
             <NameValueRow
-              name="Agent connected"
-              value={
-                isAgentConnected ? (
-                  "TRUE"
-                ) : roomState === ConnectionState.Connected ? (
-                  <LoadingSVG diameter={12} strokeWidth={2} />
-                ) : (
-                  "FALSE"
-                )
-              }
-              valueColor={
-                isAgentConnected
-                  ? `${config.settings.theme_color}-500`
-                  : "gray-500"
-              }
+              name="Participant"
+              value={localParticipant.identity}
+            />
+          </div>
+        )}
+      </ConfigurationPanelItem>
+      <ConfigurationPanelItem title="Status">
+        <div className="flex flex-col gap-2">
+          <NameValueRow
+            name="Room connected"
+            value={
+              roomState === ConnectionState.Connecting ? (
+                <LoadingSVG diameter={16} strokeWidth={2} />
+              ) : (
+                roomState.toUpperCase()
+              )
+            }
+            valueColor={
+              roomState === ConnectionState.Connected
+                ? `${config.settings.theme_color}-500`
+                : "gray-500"
+            }
+          />
+          <NameValueRow
+            name="Agent connected"
+            value={
+              isAgentConnected ? (
+                "TRUE"
+              ) : roomState === ConnectionState.Connected ? (
+                <LoadingSVG diameter={12} strokeWidth={2} />
+              ) : (
+                "FALSE"
+              )
+            }
+            valueColor={
+              isAgentConnected
+                ? `${config.settings.theme_color}-500`
+                : "gray-500"
+            }
+          />
+        </div>
+      </ConfigurationPanelItem>
+      {localVideoTrack && (
+        <ConfigurationPanelItem
+          title="Camera"
+          deviceSelectorKind="videoinput"
+        >
+          <div className="relative">
+            <VideoTrack
+              className="rounded-sm border border-gray-800 opacity-70 w-full"
+              trackRef={localVideoTrack}
             />
           </div>
         </ConfigurationPanelItem>
-        {localVideoTrack && (
-          <ConfigurationPanelItem
-            title="Camera"
-            deviceSelectorKind="videoinput"
-          >
-            <div className="relative">
-              <VideoTrack
-                className="rounded-sm border border-gray-800 opacity-70 w-full"
-                trackRef={localVideoTrack}
-              />
-            </div>
-          </ConfigurationPanelItem>
-        )}
-        {localMicTrack && (
-          <ConfigurationPanelItem
-            title="Microphone"
-            deviceSelectorKind="audioinput"
-          >
-            <AudioInputTile frequencies={localMultibandVolume} />
-          </ConfigurationPanelItem>
-        )}
+      )}
+      {localMicTrack && (
+        <ConfigurationPanelItem
+          title="Microphone"
+          deviceSelectorKind="audioinput"
+        >
+          <AudioInputTile frequencies={localMultibandVolume} />
+        </ConfigurationPanelItem>
+      )}
+      <div className="w-full">
+        <ConfigurationPanelItem title="Color">
+          <ColorPicker
+            colors={themeColors}
+            selectedColor={config.settings.theme_color}
+            onSelect={(color) => {
+              const userSettings = { ...config.settings };
+              userSettings.theme_color = color;
+              setUserSettings(userSettings);
+            }}
+          />
+        </ConfigurationPanelItem>
+      </div>
+      {config.show_qr && (
         <div className="w-full">
-          <ConfigurationPanelItem title="Color">
-            <ColorPicker
-              colors={themeColors}
-              selectedColor={config.settings.theme_color}
-              onSelect={(color) => {
-                const userSettings = { ...config.settings };
-                userSettings.theme_color = color;
-                setUserSettings(userSettings);
-              }}
-            />
+          <ConfigurationPanelItem title="QR Code">
+            <QRCodeSVG value={window.location.href} width="128" />
           </ConfigurationPanelItem>
         </div>
-        {config.show_qr && (
-          <div className="w-full">
-            <ConfigurationPanelItem title="QR Code">
-              <QRCodeSVG value={window.location.href} width="128" />
-            </ConfigurationPanelItem>
-          </div>
-        )}
-      </div>
-    );
-  }, [
-    config.description,
-    config.settings,
-    config.show_qr,
-    localParticipant,
-    name,
-    roomState,
-    isAgentConnected,
-    localVideoTrack,
-    localMicTrack,
-    localMultibandVolume,
-    themeColors,
-    setUserSettings,
-  ]);
+      )}
+    </div>
+  );
 
   let mobileTabs: PlaygroundTab[] = [];
   if (config.settings.outputs.video) {
@@ -445,7 +430,7 @@ export default function Playground({
     ),
   });
 
-  const { openDrawer } = useDrawer();
+  const { isOpen, openDrawer, updateDrawer } = useDrawer();
   const openSettings = () => {
     openDrawer(
       <PlaygroundTile
@@ -459,6 +444,35 @@ export default function Playground({
       </PlaygroundTile>
     );
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      updateDrawer(
+        <PlaygroundTile
+          padding={false}
+          backgroundColor="gray-950"
+          className="h-full w-full items-start overflow-y-auto max-w-[480px]"
+          childrenClassName="h-full grow items-start"
+          aria-describedby=""
+        >
+          {settingsTileContent}
+        </PlaygroundTile>
+      );
+    }
+  }, [
+    config.description,
+    config.settings,
+    config.show_qr,
+    localParticipant,
+    name,
+    roomState,
+    isAgentConnected,
+    localVideoTrack,
+    localMicTrack,
+    localMultibandVolume,
+    themeColors,
+    setUserSettings
+  ]);
 
   return (
     <>

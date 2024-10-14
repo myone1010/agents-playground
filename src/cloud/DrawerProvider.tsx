@@ -10,6 +10,9 @@ interface DrawerContextType {
   openDrawer: (
     children: ReactNode,
   ) => void;
+  updateDrawer: (
+    children: ReactNode,
+  ) => void;
   closeDrawer: () => void;
   drawerContent: ReactNode;
 }
@@ -29,6 +32,13 @@ export const DrawerProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsOpen(true);
   };
 
+  const updateDrawer = (
+    content: ReactNode,
+  ) => {
+    setDrawerContent(content);
+  };
+
+
   const closeDrawer = () => {
     setIsOpen(false);
     setDrawerContent(null);
@@ -39,6 +49,7 @@ export const DrawerProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         isOpen,
         openDrawer,
+        updateDrawer,
         closeDrawer,
         drawerContent,
       }}
