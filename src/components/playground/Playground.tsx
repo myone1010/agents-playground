@@ -462,6 +462,7 @@ export default function Playground({
   }, [
     config.description,
     config.settings,
+    config.settings.theme_color,
     config.show_qr,
     localParticipant,
     name,
