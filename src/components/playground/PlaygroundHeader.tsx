@@ -53,6 +53,7 @@ export const PlaygroundHeader = ({
         setElapsedSeconds((prev) => prev + 1);
       }, 1000);
     } else if (!isRunning && elapsedSeconds !== 0) {
+      setElapsedSeconds(0);
       clearInterval(interval!);
     }
 
